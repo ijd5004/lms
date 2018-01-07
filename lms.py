@@ -28,6 +28,14 @@ def lms(data):
 
     #(Test 2) Display the overdetermined linear system
     #General form equation: beta1 + x_i*beta2 = y_i
+    inp_x = np.empty(len(data))
+    inp_y = np.empty(len(data))
+    print '\n'
+    print 'overdetermined linear system:'
+    for i in range(len(data)):
+        inp_x[i] = data[i][0]
+        inp_y[i] = data[i][1]
+        print 'beta1 +',inp_x[i],'* beta2 = ',inp_y[i]
 
     #(Test 3) Display the "sum of the squares" function
 

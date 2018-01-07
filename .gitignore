@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# IJD - 2018/01/07 - ignore notes
+plan.txt
