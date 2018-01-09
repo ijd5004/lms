@@ -2,7 +2,7 @@
 """
 Module: lms
 Engineer: Ian Davis
-Date: January, 7, 2018
+Date: January 9, 2018
 Revision History:
 The purpose of this module is to perform a linear regression
 using the least mean square method.
@@ -32,7 +32,7 @@ def lms(data):
     inp_x = np.empty(nsets)
     inp_y = np.empty(nsets)
     print '\n'
-    print 'overdetermined linear system:'
+    print 'Overdetermined linear system:'
     for i in range(nsets):
         inp_x[i] = data[i][0]
         inp_y[i] = data[i][1]
@@ -63,12 +63,39 @@ def lms(data):
                             +str(terms[4])+'*beta2 + ' \
                             +str(terms[5])+'*beta1*beta2'
 
-
-
     #(Test 4) Display the partial derivative equations for the coeff.
+    # dS/dbeta1 = 2*beta1 - 2*y + 2*x*beta2 = 0
+    #             (2*terms[1])*beta1 + terms[3] + terms[5]*beta2 = 0
+    # dS/dbeta2 = 2*x^2*beta2 - 2*y*x + 2*x*beta1 = 0
+    #             2*terms[2]*beta2 + terms[4] + terms[5]*beta1 = 0
 
-
+    print '\n'
+    print 'Partial derivatives:'
+    print 'dS/dbeta1 = '+str(2*terms[1])+'*beta1 + '+str(terms[3])+' + '+str(terms[5])+'*beta2'
+    print '\n'
+    print 'dS/dbeta2 = '+str(2*terms[2])+'*beta2 + '+str(terms[4])+' + '+str(terms[5])+'*beta1'
+    
     #(Test 5) Display the solution
-
+    # dS/dbeta1 = 2*beta1 - 2*y + 2*x*beta2 = 0
+    #             (2*terms[1])*beta1 + terms[3] + terms[5]*beta2 = 0
+    #             beta1 = -terms[3]/(2*terms[1]) - terms[5]/(2*terms[1])*beta2
+    # dS/dbeta2 = 2*x^2*beta2 - 2*y*x + 2*x*beta1 = 0
+    #             (2*terms[2])*beta2 + terms[4] + terms[5]*beta1 = 0
+    #             (2*terms[2])*beta2 + terms[4] + terms[5]*(-terms[3]/(2*terms[1]) - terms[5]/(2*terms[1])*beta2) = 0
+    #             (2*terms[2])*beta2 + terms[4] - terms[5]*terms[3]/(2*terms[1])- terms[5]*terms[5]/(2*terms[1])*beta2 = 0
+    #             beta2*(2*terms[2] - terms[5]*terms[5]/(2*terms[1])) = terms[5]*terms[3]/(2*terms[1]) - terms[4]
+    #             beta2 = (terms[5]*terms[3]/(2*terms[1]) - terms[4])/(2*terms[2] - terms[5]*terms[5]/(2*terms[1]))
+    beta2 = (terms[5]*terms[3]/(2*terms[1]) - terms[4])/(2*terms[2] - terms[5]*terms[5]/(2*terms[1]))
+    beta1 = -terms[3]/(2*terms[1]) - terms[5]/(2*terms[1])*beta2
+    print '\n'
+    print 'Solution:'
+    print 'beta1 = '+str(beta1)
+    print 'beta2 = '+str(beta2)
+    print 'y = '+str(beta2)+'*x + '+str(beta1)
 
     #(Test 6) Display the sum of squares of the residuals
+    Sres = 0.0
+    for i in range(nsets):
+        Sres = Sres + (inp_y[i] - (beta1 + inp_x[i]*beta2))**2
+    print '\n'
+    print 'Sum of squares of the residuals: '+str(Sres)
